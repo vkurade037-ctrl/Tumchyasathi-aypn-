@@ -1,82 +1,235 @@
+
 <!DOCTYPE html>
 <html lang="mr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>तुमच्यासाठी कायपण</title>
+
 <style>
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f5f7fb;color:#222}
-.app{max-width:480px;margin:auto;min-height:100vh;background:#fff}
-.head{padding:18px;text-align:right}.help{color:#1769aa;font-size:14px}
-.hero{text-align:center;padding:25px 20px}
-.logo{width:100px;height:100px;border:3px solid #333;border-radius:16px;margin:auto;display:flex;align-items:center;justify-content:center;background:#fafafa;font-weight:bold}
-.hero h1{font-size:25px;margin:15px 0 25px}
-.card{margin:12px 18px;padding:18px;border-radius:14px;background:#fff;box-shadow:0 2px 10px #0001}
-.btn{width:100%;padding:14px;border:0;border-radius:10px;background:#1769aa;color:#fff;font-size:17px;margin-top:10px}
-.btn:disabled{opacity:.6}
-.secondary{background:#eee;color:#222}.hidden{display:none}
-input,select,textarea{width:100%;padding:12px;margin:7px 0 12px;border:1px solid #ccc;border-radius:8px;font-size:16px}
-.bottom{position:sticky;bottom:0;background:#fff;border-top:1px solid #ddd;display:flex}
-.bottom button{flex:1;padding:14px;border:0;background:#fff;font-size:14px}
-.booking{padding:18px}
-.success{background:#e9f8ed;padding:15px;border-radius:10px;margin-top:10px}
-.error{background:#fdecec;padding:15px;border-radius:10px;margin-top:10px;word-break:break-word}
-.info{background:#eef6ff;padding:12px;border-radius:10px;margin:10px 0}
-.otpbox{background:#f5f7fb;padding:12px;border-radius:10px;margin-bottom:10px}
-.small{font-size:13px;color:#666}
-#recaptcha-container{margin:12px 0;min-height:78px}
-#otp{letter-spacing:5px;text-align:center;font-weight:bold}
+
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f5f7fb;
+  color:#222
+}
+
+.app{
+  max-width:480px;
+  margin:auto;
+  min-height:100vh;
+  background:#fff
+}
+
+.head{
+  padding:18px;
+  text-align:right
+}
+
+.help{
+  color:#1769aa;
+  font-size:14px
+}
+
+.hero{
+  text-align:center;
+  padding:25px 20px
+}
+
+.logo{
+  width:100px;
+  height:100px;
+  border:3px solid #333;
+  border-radius:16px;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#fafafa;
+  font-weight:bold
+}
+
+.hero h1{
+  font-size:25px;
+  margin:15px 0 25px
+}
+
+.card{
+  margin:12px 18px;
+  padding:18px;
+  border-radius:14px;
+  background:#fff;
+  box-shadow:0 2px 10px #0001
+}
+
+.btn{
+  width:100%;
+  padding:14px;
+  border:0;
+  border-radius:10px;
+  background:#1769aa;
+  color:#fff;
+  font-size:17px;
+  margin-top:10px
+}
+
+.btn:disabled{
+  opacity:.6
+}
+
+.secondary{
+  background:#eee;
+  color:#222
+}
+
+.hidden{
+  display:none
+}
+
+input,select,textarea{
+  width:100%;
+  padding:12px;
+  margin:7px 0 12px;
+  border:1px solid #ccc;
+  border-radius:8px;
+  font-size:16px
+}
 
 .phone-row{
   display:flex;
-  gap:8px;
-  align-items:center;
+  gap:14px;
+  align-items:center
 }
 
 .country-code{
-  width:65px;
-  padding:12px 8px;
+  width:120px;
+  padding:15px 10px;
   border:1px solid #ccc;
-  border-radius:8px;
+  border-radius:10px;
   background:#f5f5f5;
-  font-size:16px;
+  font-size:18px;
   font-weight:bold;
-  text-align:center;
+  text-align:center
 }
 
 .phone-input{
   flex:1;
-  margin:7px 0 12px;
+  margin:0
+}
+
+.bottom{
+  position:sticky;
+  bottom:0;
+  background:#fff;
+  border-top:1px solid #ddd;
+  display:flex
+}
+
+.bottom button{
+  flex:1;
+  padding:14px;
+  border:0;
+  background:#fff;
+  font-size:14px
+}
+
+.booking{
+  padding:18px
+}
+
+.success{
+  background:#e9f8ed;
+  padding:15px;
+  border-radius:10px;
+  margin-top:10px
+}
+
+.error{
+  background:#fdecec;
+  padding:15px;
+  border-radius:10px;
+  margin-top:10px;
+  word-break:break-word
+}
+
+.info{
+  background:#eef6ff;
+  padding:12px;
+  border-radius:10px;
+  margin:10px 0
+}
+
+.otpbox{
+  background:#f5f7fb;
+  padding:12px;
+  border-radius:10px;
+  margin-bottom:10px
+}
+
+.small{
+  font-size:13px;
+  color:#666
+}
+
+#recaptcha-container{
+  margin:12px 0;
+  min-height:78px
+}
+
+#otp{
+  letter-spacing:5px;
+  text-align:center;
+  font-weight:bold
 }
 </style>
 </head>
 
 <body>
+
 <div class="app">
 
-<div class="head"><span class="help">मदत केंद्र</span></div>
+<div class="head">
+  <span class="help">मदत केंद्र</span>
+</div>
 
 <section id="home" class="hero">
+
   <div class="logo">BOX</div>
+
   <h1>तुमच्यासाठी कायपण</h1>
 
   <div class="card">
     <h3>तुम्हाला काय हवे आहे?</h3>
-    <button class="btn" onclick="show('booking')">नवीन बुकिंग</button>
+
+    <button class="btn" onclick="show('booking')">
+      नवीन बुकिंग
+    </button>
   </div>
+
 </section>
 
+
 <section id="booking" class="booking hidden">
+
   <h2>नवीन बुकिंग</h2>
 
   <label>तुमचे नाव</label>
-  <input id="name" placeholder="नाव लिहा">
+
+  <input
+    id="name"
+    placeholder="नाव लिहा"
+  >
+
 
   <label>मोबाईल नंबर</label>
 
   <div class="phone-row">
-    <div class="country-code">+91</div>
+
+    <div class="country-code">
+      +91
+    </div>
 
     <input
       id="phone"
@@ -86,13 +239,21 @@ input,select,textarea{width:100%;padding:12px;margin:7px 0 12px;border:1px solid
       maxlength="10"
       placeholder="10 अंकी मोबाईल नंबर"
     >
+
   </div>
+
 
   <div id="recaptcha-container"></div>
 
-  <button id="sendOtpBtn" class="btn" onclick="sendOTP()">
+
+  <button
+    id="sendOtpBtn"
+    class="btn"
+    onclick="sendOTP()"
+  >
     OTP पाठवा
   </button>
+
 
   <div id="otpArea" class="otpbox hidden">
 
@@ -109,27 +270,32 @@ input,select,textarea{width:100%;padding:12px;margin:7px 0 12px;border:1px solid
     <button
       id="verifyOtpBtn"
       class="btn"
-      onclick="verifyOTP()">
+      onclick="verifyOTP()"
+    >
       OTP तपासा
     </button>
 
     <button
       class="btn secondary"
-      onclick="sendOTP()">
+      onclick="sendOTP()"
+    >
       OTP पुन्हा पाठवा
     </button>
 
   </div>
 
+
   <div id="verified" class="success hidden">
     ✅ मोबाईल नंबर सत्यापित झाला.
   </div>
+
 
   <div id="bookingFields" class="hidden">
 
     <label>सेवा निवडा</label>
 
     <select id="service">
+
       <option value="सामान्य डिलिव्हरी">
         सामान्य डिलिव्हरी
       </option>
@@ -141,38 +307,47 @@ input,select,textarea{width:100%;padding:12px;margin:7px 0 12px;border:1px solid
       <option value="इतर काम">
         इतर काम
       </option>
+
     </select>
+
 
     <label>गाव / स्टॉप निवडा</label>
 
     <select id="place"></select>
+
 
     <label>कामाची माहिती</label>
 
     <textarea
       id="details"
       rows="4"
-      placeholder="काय काम आहे ते लिहा">
-    </textarea>
+      placeholder="काय काम आहे ते लिहा"
+    ></textarea>
+
 
     <button
       id="bookBtn"
       class="btn"
-      onclick="book()">
+      onclick="book()"
+    >
       बुकिंग करा
     </button>
 
   </div>
 
+
   <div id="msg"></div>
+
 
   <button
     class="btn secondary"
-    onclick="show('home')">
+    onclick="show('home')"
+  >
     मागे
   </button>
 
 </section>
+
 
 <section id="mybookings" class="booking hidden">
 
@@ -182,11 +357,13 @@ input,select,textarea{width:100%;padding:12px;margin:7px 0 12px;border:1px solid
 
   <button
     class="btn secondary"
-    onclick="show('home')">
+    onclick="show('home')"
+  >
     मागे
   </button>
 
 </section>
+
 
 <div class="bottom">
 
@@ -206,10 +383,12 @@ input,select,textarea{width:100%;padding:12px;margin:7px 0 12px;border:1px solid
 
 </div>
 
+
 <script type="module">
 
 import { initializeApp }
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
 
 import {
   getAuth,
@@ -217,6 +396,7 @@ import {
   signInWithPhoneNumber
 }
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
 
 import {
   getDatabase,
@@ -233,28 +413,29 @@ from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
 
 const firebaseConfig = {
 
-  apiKey: "AIzaSyA2uXsEr5Bcg6T7z87WRhiLZc7FgIJwuqs",
+  apiKey:
+  "AIzaSyA2uXsEr5Bcg6T7z87WRhiLZc7FgIJwuqs",
 
   authDomain:
-    "tumchyasathi-kaypn.firebaseapp.com",
+  "tumchyasathi-kaypn.firebaseapp.com",
 
   databaseURL:
-    "https://tumchyasathi-kaypn-default-rtdb.asia-southeast1.firebasedatabase.app",
+  "https://tumchyasathi-kaypn-default-rtdb.asia-southeast1.firebasedatabase.app",
 
   projectId:
-    "tumchyasathi-kaypn",
+  "tumchyasathi-kaypn",
 
   storageBucket:
-    "tumchyasathi-kaypn.firebasestorage.app",
+  "tumchyasathi-kaypn.firebasestorage.app",
 
   messagingSenderId:
-    "670531502002",
+  "670531502002",
 
   appId:
-    "1:670531502002:web:92309c8a6ffc0d888aaeab",
+  "1:670531502002:web:92309c8a6ffc0d888aaeab",
 
   measurementId:
-    "G-WZY6XLJBH6"
+  "G-WZY6XLJBH6"
 };
 
 
@@ -330,16 +511,19 @@ document.getElementById("place");
 villages.forEach((item,i)=>{
 
   const option =
-    document.createElement("option");
+  document.createElement("option");
 
-  option.value = item[0];
+  option.value =
+  item[0];
 
   option.textContent =
     (i+1)+". "+item[0]+
     (
       item[1] !== null
-      ? " — "+item[1]+" km"
-      : " — अंतर उपलब्ध नाही"
+      ?
+      " — "+item[1]+" km"
+      :
+      " — अंतर उपलब्ध नाही"
     );
 
   place.appendChild(option);
@@ -358,77 +542,113 @@ let recaptchaWidgetId = null;
 let bookingInProgress = false;
 
 
+
 window.show = function(id){
 
-  ["home","booking","mybookings"].forEach(x=>{
-
+  ["home","booking","mybookings"]
+  .forEach(x=>{
     document
-      .getElementById(x)
-      .classList
-      .add("hidden");
-
+    .getElementById(x)
+    .classList
+    .add("hidden");
   });
 
   document
-    .getElementById(id)
-    .classList
-    .remove("hidden");
+  .getElementById(id)
+  .classList
+  .remove("hidden");
 
 };
 
+
+
+/* =========================
+   AUTH ERROR
+========================= */
 
 function firebaseErrorMessage(e){
 
   const code =
     e?.code || "unknown";
 
-
   const messages = {
 
     "auth/invalid-phone-number":
-      "मोबाईल नंबर चुकीच्या स्वरूपात आहे.",
+    "मोबाईल नंबर चुकीच्या स्वरूपात आहे.",
 
     "auth/too-many-requests":
-      "या नंबरसाठी खूप OTP मागवले आहेत. थोड्या वेळाने पुन्हा प्रयत्न करा.",
+    "या नंबरसाठी खूप OTP मागवले आहेत. थोड्या वेळाने पुन्हा प्रयत्न करा.",
 
     "auth/quota-exceeded":
-      "Firebase SMS quota पूर्ण झाली आहे.",
+    "Firebase SMS quota पूर्ण झाली आहे.",
 
     "auth/captcha-check-failed":
-      "reCAPTCHA तपासणी अयशस्वी झाली.",
+    "reCAPTCHA तपासणी अयशस्वी झाली.",
 
     "auth/invalid-app-credential":
-      "reCAPTCHA/App verification मध्ये समस्या आहे.",
+    "reCAPTCHA/App verification मध्ये समस्या आहे.",
 
     "auth/app-not-authorized":
-      "हा domain Firebase मध्ये Authorized नाही.",
+    "हा domain Firebase मध्ये Authorized नाही.",
 
     "auth/operation-not-allowed":
-      "Firebase मध्ये Phone Authentication चालू केलेले नाही.",
+    "Firebase मध्ये Phone Authentication चालू केलेले नाही.",
 
     "auth/network-request-failed":
-      "Internet/network समस्या आहे.",
+    "Internet/network समस्या आहे.",
 
     "auth/code-expired":
-      "OTP कालबाह्य झाला आहे.",
+    "OTP कालबाह्य झाला आहे.",
 
     "auth/invalid-verification-code":
-      "OTP चुकीचा आहे."
+    "OTP चुकीचा आहे."
 
   };
 
 
   return (
-
-    messages[code] ||
-    "Firebase कडून OTP पाठवताना अनोखी त्रुटी आली."
-
-  ) +
-
-  "<br><small>Code: "+code+"</small>";
+    messages[code]
+    ||
+    e?.message
+    ||
+    "Firebase कडून अनोखी त्रुटी आली."
+  )
+  +
+  "<br><small>Code: "
+  +code+
+  "</small>";
 
 }
 
+
+
+/* =========================
+   DATABASE ERROR
+========================= */
+
+function databaseErrorMessage(e){
+
+  const code =
+    e?.code || "unknown";
+
+  const message =
+    e?.message || "";
+
+  return `
+    <b>बुकिंग सेव्ह करताना समस्या आली.</b>
+    <br><br>
+    <b>Firebase Code:</b> ${code}
+    <br>
+    <b>Message:</b> ${message}
+  `;
+
+}
+
+
+
+/* =========================
+   RECAPTCHA
+========================= */
 
 async function makeRecaptcha(){
 
@@ -437,39 +657,42 @@ async function makeRecaptcha(){
 
 
   recaptchaVerifier =
-    new RecaptchaVerifier(
+  new RecaptchaVerifier(
 
-      auth,
+    auth,
 
-      "recaptcha-container",
+    "recaptcha-container",
 
-      {
+    {
 
-        size:"normal",
+      size:"normal",
 
-        callback:()=>{},
+      callback:()=>{},
 
-        "expired-callback":()=>{
+      "expired-callback":()=>{
 
-          document
-            .getElementById("msg")
-            .innerHTML =
-            '<div class="error">'+
-            'reCAPTCHA कालबाह्य झाले. पुन्हा तपासा.'+
-            '</div>';
-
-        }
+        document
+        .getElementById("msg")
+        .innerHTML =
+        '<div class="error">reCAPTCHA कालबाह्य झाले. पुन्हा तपासा.</div>';
 
       }
 
-    );
+    }
+
+  );
 
 
   recaptchaWidgetId =
-    await recaptchaVerifier.render();
+  await recaptchaVerifier.render();
 
 }
 
+
+
+/* =========================
+   RESET RECAPTCHA
+========================= */
 
 async function resetRecaptcha(){
 
@@ -481,7 +704,7 @@ async function resetRecaptcha(){
     ){
 
       window.grecaptcha
-        .reset(recaptchaWidgetId);
+      .reset(recaptchaWidgetId);
 
     }
 
@@ -490,31 +713,32 @@ async function resetRecaptcha(){
 }
 
 
+
+/* =========================
+   SEND OTP
+========================= */
+
 window.sendOTP = async function(){
 
   const phone =
     document
-      .getElementById("phone")
-      .value
-      .trim();
-
+    .getElementById("phone")
+    .value
+    .trim();
 
   const btn =
     document
-      .getElementById("sendOtpBtn");
-
+    .getElementById("sendOtpBtn");
 
   const msg =
     document
-      .getElementById("msg");
+    .getElementById("msg");
 
 
   if(!/^[0-9]{10}$/.test(phone)){
 
     msg.innerHTML =
-      '<div class="error">'+
-      'कृपया 10 अंकी मोबाईल नंबर टाका.'+
-      '</div>';
+    '<div class="error">कृपया 10 अंकी मोबाईल नंबर टाका.</div>';
 
     return;
 
@@ -528,9 +752,7 @@ window.sendOTP = async function(){
 
 
   msg.innerHTML =
-    '<div class="info">'+
-    'reCAPTCHA तपासणी आणि OTP पाठवण्याची प्रक्रिया सुरू आहे...'+
-    '</div>';
+  '<div class="info">reCAPTCHA तपासणी आणि OTP पाठवण्याची प्रक्रिया सुरू आहे...</div>';
 
 
   try{
@@ -538,12 +760,16 @@ window.sendOTP = async function(){
     await makeRecaptcha();
 
 
+    const fullPhone =
+      "+91"+phone;
+
+
     confirmationResult =
       await signInWithPhoneNumber(
 
         auth,
 
-        "+91"+phone,
+        fullPhone,
 
         recaptchaVerifier
 
@@ -551,38 +777,37 @@ window.sendOTP = async function(){
 
 
     document
-      .getElementById("otpArea")
-      .classList
-      .remove("hidden");
+    .getElementById("otpArea")
+    .classList
+    .remove("hidden");
 
 
     msg.innerHTML =
-      '<div class="success">'+
-      '✅ OTP पाठवला आहे. SMS मधील 6 अंकी OTP टाका.'+
-      '</div>';
+    '<div class="success">✅ OTP पाठवला आहे. SMS मधील 6 अंकी OTP टाका.</div>';
 
 
-  }catch(e){
+  }
+
+  catch(e){
 
     console.error(
       "Firebase OTP error:",
       e
     );
 
-
     confirmationResult = null;
-
 
     await resetRecaptcha();
 
 
     msg.innerHTML =
-      '<div class="error">'+
-      '<b>OTP पाठवता आला नाही.</b><br>'+
-      firebaseErrorMessage(e)+
-      '</div>';
+    '<div class="error"><b>OTP पाठवता आला नाही.</b><br>'+
+    firebaseErrorMessage(e)+
+    '</div>';
 
-  }finally{
+  }
+
+  finally{
 
     btn.disabled = false;
 
@@ -594,31 +819,32 @@ window.sendOTP = async function(){
 };
 
 
+
+/* =========================
+   VERIFY OTP
+========================= */
+
 window.verifyOTP = async function(){
 
   const otp =
     document
-      .getElementById("otp")
-      .value
-      .trim();
-
+    .getElementById("otp")
+    .value
+    .trim();
 
   const msg =
     document
-      .getElementById("msg");
-
+    .getElementById("msg");
 
   const btn =
     document
-      .getElementById("verifyOtpBtn");
+    .getElementById("verifyOtpBtn");
 
 
   if(!confirmationResult){
 
     msg.innerHTML =
-      '<div class="error">'+
-      'आधी OTP पाठवा.'+
-      '</div>';
+    '<div class="error">आधी OTP पाठवा.</div>';
 
     return;
 
@@ -628,9 +854,7 @@ window.verifyOTP = async function(){
   if(!/^[0-9]{6}$/.test(otp)){
 
     msg.innerHTML =
-      '<div class="error">'+
-      '6 अंकी OTP टाका.'+
-      '</div>';
+    '<div class="error">6 अंकी OTP टाका.</div>';
 
     return;
 
@@ -646,8 +870,7 @@ window.verifyOTP = async function(){
   try{
 
     const result =
-      await confirmationResult
-        .confirm(otp);
+      await confirmationResult.confirm(otp);
 
 
     verifiedPhone =
@@ -655,54 +878,54 @@ window.verifyOTP = async function(){
 
 
     document
-      .getElementById("verified")
-      .classList
-      .remove("hidden");
+    .getElementById("verified")
+    .classList
+    .remove("hidden");
 
 
     document
-      .getElementById("bookingFields")
-      .classList
-      .remove("hidden");
+    .getElementById("bookingFields")
+    .classList
+    .remove("hidden");
 
 
     document
-      .getElementById("otpArea")
-      .classList
-      .add("hidden");
+    .getElementById("otpArea")
+    .classList
+    .add("hidden");
 
 
     document
-      .getElementById("phone")
-      .disabled = true;
+    .getElementById("phone")
+    .disabled = true;
 
 
     document
-      .getElementById("sendOtpBtn")
-      .classList
-      .add("hidden");
+    .getElementById("sendOtpBtn")
+    .classList
+    .add("hidden");
 
 
     msg.innerHTML =
-      '<div class="success">'+
-      '✅ मोबाईल नंबर यशस्वीपणे सत्यापित झाला.'+
-      '</div>';
+    '<div class="success">✅ मोबाईल नंबर यशस्वीपणे सत्यापित झाला.</div>';
 
+  }
 
-  }catch(e){
+  catch(e){
 
     console.error(
       "OTP verify error:",
       e
     );
 
-
     msg.innerHTML =
-      '<div class="error">'+
-      firebaseErrorMessage(e)+
-      '</div>';
+    '<div class="error">'+
+    firebaseErrorMessage(e)+
+    '</div>';
 
-  }finally{
+  }
+
+  finally{
 
     btn.disabled = false;
 
@@ -713,6 +936,11 @@ window.verifyOTP = async function(){
 
 };
 
+
+
+/* =========================
+   BOOKING
+========================= */
 
 window.book = async function(){
 
@@ -733,33 +961,38 @@ window.book = async function(){
 
   const name =
     document
-      .getElementById("name")
-      .value
-      .trim();
+    .getElementById("name")
+    .value
+    .trim();
 
 
   const service =
     document
-      .getElementById("service")
-      .value;
+    .getElementById("service")
+    .value;
 
 
   const selectedPlace =
     document
-      .getElementById("place")
-      .value;
+    .getElementById("place")
+    .value;
 
 
   const details =
     document
-      .getElementById("details")
-      .value
-      .trim();
+    .getElementById("details")
+    .value
+    .trim();
 
 
   const btn =
     document
-      .getElementById("bookBtn");
+    .getElementById("bookBtn");
+
+
+  const msg =
+    document
+    .getElementById("msg");
 
 
   if(
@@ -785,11 +1018,26 @@ window.book = async function(){
     "बुकिंग होत आहे...";
 
 
+  msg.innerHTML =
+  '<div class="info">बुकिंग Firebase मध्ये सेव्ह करत आहे...</div>';
+
+
   try{
+
+    if(!auth.currentUser){
+
+      throw new Error(
+        "Firebase Authentication user सापडला नाही."
+      );
+
+    }
+
 
     const userKey =
       auth.currentUser.uid;
 
+
+    /* Duplicate check */
 
     const existing =
       await get(
@@ -814,7 +1062,8 @@ window.book = async function(){
 
       existing.forEach(s=>{
 
-        const b = s.val();
+        const b =
+          s.val();
 
 
         if(
@@ -840,17 +1089,15 @@ window.book = async function(){
 
     if(duplicate){
 
-      document
-        .getElementById("msg")
-        .innerHTML =
-        '<div class="error">'+
-        'हीच बुकिंग आधीच नोंदलेली आहे.'+
-        '</div>';
+      msg.innerHTML =
+      '<div class="error">हीच बुकिंग आधीच नोंदलेली आहे.</div>';
 
       return;
 
     }
 
+
+    /* Create booking */
 
     const bookingRef =
       push(ref(db,"bookings"));
@@ -864,17 +1111,23 @@ window.book = async function(){
 
     const booking = {
 
-      id: bookingRef.key,
+      id:
+        bookingRef.key,
 
-      userId: userKey,
+      userId:
+        userKey,
 
-      name: name,
+      name:
+        name,
 
-      phone: verifiedPhone,
+      phone:
+        verifiedPhone,
 
-      service: service,
+      service:
+        service,
 
-      place: selectedPlace,
+      place:
+        selectedPlace,
 
       stop:
         villages.findIndex(
@@ -884,14 +1137,19 @@ window.book = async function(){
       distanceKm:
         village ? village[1] : null,
 
-      details: details,
+      details:
+        details,
 
-      status: "नवीन",
+      status:
+        "नवीन",
 
-      createdAt: Date.now()
+      createdAt:
+        Date.now()
 
     };
 
+
+    /* Save to Realtime Database */
 
     await set(
       bookingRef,
@@ -899,19 +1157,18 @@ window.book = async function(){
     );
 
 
-    document
-      .getElementById("msg")
-      .innerHTML =
-      '<div class="success">'+
-      '<b>बुकिंग यशस्वी!</b><br>'+
-      'बुकिंग क्रमांक: '+
-      booking.id+
-      '</div>';
+    msg.innerHTML =
+    '<div class="success">'+
+    '<b>🎉 बुकिंग यशस्वी!</b>'+
+    '<br><br>'+
+    'बुकिंग क्रमांक: '+
+    booking.id+
+    '</div>';
 
 
     document
-      .getElementById("details")
-      .value = "";
+    .getElementById("details")
+    .value = "";
 
 
     setTimeout(()=>{
@@ -923,41 +1180,29 @@ window.book = async function(){
     },500);
 
 
-  }catch(e){
+  }
+
+  catch(e){
 
     console.error(
-      "Booking error:",
+      "BOOKING DATABASE ERROR:",
       e
     );
 
 
-    const errorCode =
-      e?.code || "unknown";
+    /*
+      इथे आधी OTP error दाखवत होता.
+      आता Database चा खरा error दाखवेल.
+    */
 
+    msg.innerHTML =
+    '<div class="error">'+
+    databaseErrorMessage(e)+
+    '</div>';
 
-    const errorMessage =
-      e?.message ||
-      "Firebase ने कोणतीही माहिती दिली नाही.";
+  }
 
-
-    document
-      .getElementById("msg")
-      .innerHTML =
-
-      '<div class="error">'+
-
-      '<b>बुकिंग सेव्ह झाली नाही.</b><br><br>'+
-
-      '<b>Error Code:</b> '+
-      errorCode+
-      '<br>'+
-
-      '<b>Message:</b> '+
-      errorMessage+
-
-      '</div>';
-
-  }finally{
+  finally{
 
     bookingInProgress = false;
 
@@ -971,11 +1216,16 @@ window.book = async function(){
 };
 
 
+
+/* =========================
+   MY BOOKINGS
+========================= */
+
 window.render = async function(){
 
   const list =
     document
-      .getElementById("list");
+    .getElementById("list");
 
 
   if(!auth.currentUser){
@@ -1036,8 +1286,8 @@ window.render = async function(){
 
     arr.sort(
       (a,b)=>
-        (b.createdAt||0) -
-        (a.createdAt||0)
+      (b.createdAt||0)-
+      (a.createdAt||0)
     );
 
 
@@ -1046,17 +1296,21 @@ window.render = async function(){
 
         `<div class="card">
 
-          <b>बुकिंग: ${b.id}</b><br>
+          <b>बुकिंग: ${b.id}</b>
+          <br>
 
-          सेवा: ${b.service}<br>
+          सेवा: ${b.service}
+          <br>
 
           स्टॉप ${b.stop}: ${b.place}
 
           ${
             b.distanceKm!==null &&
             b.distanceKm!==undefined
-            ? " — "+b.distanceKm+" km"
-            : ""
+            ?
+            " — "+b.distanceKm+" km"
+            :
+            ""
           }
 
           <br>
@@ -1068,19 +1322,31 @@ window.render = async function(){
       ).join("");
 
 
-  }catch(e){
+  }
 
-    console.error(e);
+  catch(e){
+
+    console.error(
+      "Render error:",
+      e
+    );
+
 
     list.innerHTML =
-      '<div class="error">'+
-      'बुकिंग लोड करता आली नाही.'+
-      '</div>';
+    '<div class="error">'+
+    'बुकिंग लोड करता आली नाही.<br>'+
+    '<small>'+
+    (e?.code || "unknown")+
+    '<br>'+
+    (e?.message || "")+
+    '</small>'+
+    '</div>';
 
   }
 
 };
 
 </script>
+
 </body>
 </html>
