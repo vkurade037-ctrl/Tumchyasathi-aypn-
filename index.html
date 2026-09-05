@@ -125,7 +125,8 @@ input,select,textarea{
   bottom:0;
   background:#fff;
   border-top:1px solid #ddd;
-  display:flex
+  display:flex;
+  z-index:50
 }
 
 .bottom button{
@@ -181,7 +182,16 @@ input,select,textarea{
 .price-row{
   display:flex;
   justify-content:space-between;
-  padding:5px 0
+  gap:15px;
+  padding:6px 0
+}
+
+.price-row span:first-child{
+  flex:1
+}
+
+.price-row b{
+  text-align:right
 }
 
 .final-price{
@@ -199,7 +209,9 @@ input,select,textarea{
 
 .small{
   font-size:13px;
-  color:#666
+  color:#666;
+  line-height:1.6;
+  margin-top:12px
 }
 
 #recaptcha-container{
@@ -235,6 +247,20 @@ input,select,textarea{
   background:#eee;
   color:#222
 }
+
+.route-title{
+  font-weight:bold;
+  margin-bottom:8px
+}
+
+.warning{
+  background:#fff8e1;
+  padding:10px;
+  border-radius:8px;
+  font-size:13px;
+  color:#755800;
+  margin-top:10px
+}
 </style>
 </head>
 
@@ -246,6 +272,8 @@ input,select,textarea{
   <span class="help" onclick="openHelp()">मदत केंद्र</span>
 </div>
 
+
+<!-- ================= HOME ================= -->
 
 <section id="home" class="hero">
 
@@ -264,9 +292,14 @@ input,select,textarea{
 </section>
 
 
+<!-- ================= BOOKING ================= -->
+
 <section id="booking" class="booking hidden">
 
   <h2>नवीन बुकिंग</h2>
+
+
+  <!-- नाव -->
 
   <label>तुमचे नाव</label>
 
@@ -275,6 +308,8 @@ input,select,textarea{
     placeholder="नाव लिहा"
   >
 
+
+  <!-- मोबाईल -->
 
   <label>मोबाईल नंबर</label>
 
@@ -307,6 +342,8 @@ input,select,textarea{
     OTP पाठवा
   </button>
 
+
+  <!-- OTP -->
 
   <div id="otpArea" class="otpbox hidden">
 
@@ -343,17 +380,31 @@ input,select,textarea{
   </div>
 
 
+  <!-- ================= BOOKING FIELDS ================= -->
+
   <div id="bookingFields" class="hidden">
 
+
     <div class="info">
-      📦 <b>सामान घेण्याचे ठिकाण:</b><br>
+
+      📍 <b>मार्ग:</b><br>
+
+      बांबवडे →
+      सामान घेण्याचे ठिकाण →
+      सामान पोहोचवण्याचे ठिकाण →
       बांबवडे
+
     </div>
 
 
+    <!-- SERVICE -->
+
     <label>सेवा निवडा</label>
 
-    <select id="service">
+    <select
+      id="service"
+      onchange="calculatePrice()"
+    >
 
       <option value="सामान्य डिलिव्हरी">
         सामान्य डिलिव्हरी
@@ -370,59 +421,152 @@ input,select,textarea{
     </select>
 
 
-    <label>सामान कुठे पोचवायचे?</label>
+    <!-- PICKUP -->
 
-    <select id="place" onchange="calculatePrice()"></select>
+    <label>
+      📦 सामान कुठून घ्यायचे?
+    </label>
+
+    <select
+      id="pickup"
+      onchange="calculatePrice()"
+    >
+
+    </select>
 
 
-    <div id="routeBox" class="pricebox hidden">
+    <!-- DELIVERY -->
+
+    <label>
+      📍 सामान कुठे पोहोचवायचे?
+    </label>
+
+    <select
+      id="place"
+      onchange="calculatePrice()"
+    >
+
+    </select>
+
+
+    <!-- ================= PRICE ================= -->
+
+    <div
+      id="routeBox"
+      class="pricebox hidden"
+    >
+
+      <div class="route-title">
+        🚚 तुमचा मार्ग
+      </div>
+
 
       <div class="price-row">
-        <span>📦 येथून</span>
+        <span>📍 सुरुवात</span>
         <b>बांबवडे</b>
       </div>
 
+
       <div class="price-row">
-        <span>📍 येथे</span>
+        <span>📦 सामान घ्यायचे</span>
+        <b id="pickupPlace">-</b>
+      </div>
+
+
+      <div class="price-row">
+        <span>📍 सामान पोहोचवायचे</span>
         <b id="toPlace">-</b>
       </div>
 
+
       <hr>
 
+
       <div class="price-row">
-        <span>➡️ जाण्याचे अंतर</span>
+        <span>➡️ बांबवडे → Pickup</span>
         <b id="goDistance">0 km</b>
       </div>
 
+
       <div class="price-row">
-        <span>⬅️ परतीचे अंतर</span>
+        <span>🚚 Pickup → Delivery</span>
+        <b id="middleDistance">0 km</b>
+      </div>
+
+
+      <div class="price-row">
+        <span>⬅️ Delivery → बांबवडे</span>
         <b id="returnDistance">0 km</b>
       </div>
+
 
       <div class="price-row">
         <span>📏 एकूण अंतर</span>
         <b id="totalDistance">0 km</b>
       </div>
 
+
+      <hr>
+
+
       <div class="price-row">
         <span>मूळ दर ₹6/km</span>
         <b id="originalPrice">₹0</b>
       </div>
+
 
       <div class="price-row discount">
         <span>🎁 Discount ₹1/km</span>
         <b id="discountPrice">- ₹0</b>
       </div>
 
+
+      <div class="price-row">
+        <span id="fixedChargeLabel">
+          🧾 सामान्य Fixed charge
+        </span>
+
+        <b id="fixedCharge">
+          ₹30
+        </b>
+      </div>
+
+
       <div class="price-row final-price">
         <span>💰 तुमची किंमत</span>
         <span id="finalPrice">₹0</span>
       </div>
 
+
+      <div class="small">
+
+        सामान्य डिलिव्हरी:
+        साधारण <b>2–3 तास</b>
+
+        <br>
+
+        Emergency:
+        साधारण <b>30 मिनिटांत</b>
+        आम्ही तुमच्याजवळ असू.
+
+      </div>
+
+
+      <div class="warning">
+
+        ℹ️ अंतर सध्या बांबवडेपासून उपलब्ध असलेल्या
+        अंतरावरून अंदाजे मोजले जात आहे.
+
+      </div>
+
     </div>
 
 
-    <label>कामाची माहिती</label>
+    <!-- DETAILS -->
+
+    <label>
+      कामाची माहिती
+    </label>
 
     <textarea
       id="details"
@@ -430,6 +574,8 @@ input,select,textarea{
       placeholder="काय सामान / काम आहे ते लिहा"
     ></textarea>
 
+
+    <!-- BOOK -->
 
     <button
       id="bookBtn"
@@ -455,7 +601,12 @@ input,select,textarea{
 </section>
 
 
-<section id="mybookings" class="booking hidden">
+<!-- ================= MY BOOKINGS ================= -->
+
+<section
+  id="mybookings"
+  class="booking hidden"
+>
 
   <h2>माझी बुकिंग</h2>
 
@@ -471,42 +622,66 @@ input,select,textarea{
 </section>
 
 
+<!-- ================= BOTTOM ================= -->
+
 <div class="bottom">
 
   <button onclick="show('home')">
     मुख्यपृष्ठ
   </button>
 
-  <button onclick="show('mybookings');render()">
+  <button
+    onclick="show('mybookings');render()"
+  >
     माझी बुकिंग
   </button>
 
-  <button onclick="alert('प्रोफाइल सुविधा पुढील आवृत्तीत')">
+  <button
+    onclick="alert('प्रोफाइल सुविधा पुढील आवृत्तीत')"
+  >
     माझा प्रोफाइल
   </button>
 
 </div>
 
 
-<!-- मदत केंद्र -->
+<!-- ================= HELP ================= -->
 
-<div id="helpBox" class="helpbox hidden">
+<div
+  id="helpBox"
+  class="helpbox hidden"
+>
 
   <h2>📞 मदत केंद्र</h2>
 
-  <p>बुकिंग किंवा इतर कोणत्याही मदतीसाठी आमच्याशी संपर्क करा.</p>
+  <p>
+    बुकिंग किंवा इतर कोणत्याही मदतीसाठी
+    आमच्याशी संपर्क करा.
+  </p>
 
-  <p style="font-size:22px;font-weight:bold;text-align:center">
+  <p
+    style="
+      font-size:22px;
+      font-weight:bold;
+      text-align:center
+    "
+  >
     8788315943
   </p>
+
 
   <a
     href="tel:8788315943"
     class="btn"
-    style="display:block;text-align:center;text-decoration:none"
+    style="
+      display:block;
+      text-align:center;
+      text-decoration:none
+    "
   >
     📞 आत्ताच कॉल करा
   </a>
+
 
   <button
     class="btn closebtn"
@@ -519,6 +694,8 @@ input,select,textarea{
 
 </div>
 
+
+<!-- ================= FIREBASE ================= -->
 
 <script type="module">
 
@@ -547,6 +724,10 @@ import {
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
 
 
+/* =========================
+   FIREBASE CONFIG
+========================= */
+
 const firebaseConfig = {
 
   apiKey:
@@ -572,14 +753,21 @@ const firebaseConfig = {
 
   measurementId:
   "G-WZY6XLJBH6"
+
 };
 
 
-const app = initializeApp(firebaseConfig);
+const app =
+  initializeApp(firebaseConfig);
 
-const auth = getAuth(app);
 
-const db = getDatabase(app);
+const auth =
+  getAuth(app);
+
+
+const db =
+  getDatabase(app);
+
 
 auth.languageCode = "mr";
 
@@ -644,29 +832,53 @@ const villages = [
 ];
 
 
+/* =========================
+   DROPDOWN
+========================= */
+
+const pickup =
+  document.getElementById("pickup");
+
 const place =
-document.getElementById("place");
+  document.getElementById("place");
 
 
 villages.forEach((item,i)=>{
 
-  const option =
-  document.createElement("option");
+  if(item[1] === null)
+    return;
 
-  option.value =
+
+  const option1 =
+    document.createElement("option");
+
+  option1.value =
     item[0];
 
-  option.textContent =
-    (i+1)+". "+item[0]+
-    (
-      item[1] !== null
-      ?
-      " — "+item[1]+" km"
-      :
-      " — अंतर उपलब्ध नाही"
-    );
+  option1.textContent =
+    (i+1)+". "+
+    item[0]+
+    " — "+
+    item[1]+
+    " km";
 
-  place.appendChild(option);
+  pickup.appendChild(option1);
+
+
+  const option2 =
+    document.createElement("option");
+
+  option2.value =
+    item[0];
+
+  option2.textContent =
+    (i+1)+". "+
+    item[0]+
+    " — "+
+    item[1]+
+    " km";
+
+  place.appendChild(option2);
 
 });
 
@@ -677,84 +889,232 @@ villages.forEach((item,i)=>{
 
 window.calculatePrice = function(){
 
-  const selectedPlace =
-    document.getElementById("place").value;
+  const pickupName =
+    document
+      .getElementById("pickup")
+      .value;
 
-  const village =
+
+  const deliveryName =
+    document
+      .getElementById("place")
+      .value;
+
+
+  const service =
+    document
+      .getElementById("service")
+      .value;
+
+
+  const pickupVillage =
     villages.find(
-      v => v[0] === selectedPlace
+      v => v[0] === pickupName
+    );
+
+
+  const deliveryVillage =
+    villages.find(
+      v => v[0] === deliveryName
     );
 
 
   const routeBox =
-    document.getElementById("routeBox");
+    document
+      .getElementById("routeBox");
 
 
-  if(!village || village[1] === null){
+  if(
+    !pickupVillage ||
+    !deliveryVillage ||
+    pickupVillage[1] === null ||
+    deliveryVillage[1] === null
+  ){
 
-    routeBox.classList.add("hidden");
+    routeBox
+      .classList
+      .add("hidden");
 
     return;
 
   }
 
 
-  const oneWay =
-    Number(village[1]);
+  /*
+
+    बांबवडे
+       ↓
+    Pickup
+       ↓
+    Delivery
+       ↓
+    बांबवडे
+
+  */
 
 
-  const total =
-    oneWay * 2;
+  const pickupDistance =
+    Number(pickupVillage[1]);
 
 
-  const original =
-    total * 6;
+  const deliveryDistance =
+    Number(deliveryVillage[1]);
+
+
+  const firstLeg =
+    pickupDistance;
+
+
+  /*
+    सध्या Pickup → Delivery
+    हे बांबवडेपासूनच्या दोन
+    अंतरांमधील फरकाने
+    अंदाजे काढले आहे.
+  */
+
+  const middleLeg =
+    Math.abs(
+      pickupDistance -
+      deliveryDistance
+    );
+
+
+  const lastLeg =
+    deliveryDistance;
+
+
+  const totalDistance =
+    firstLeg +
+    middleLeg +
+    lastLeg;
+
+
+  /* ======================
+     PRICE
+  ====================== */
+
+  const originalKmPrice =
+    totalDistance * 6;
 
 
   const discount =
-    total * 1;
+    totalDistance * 1;
 
 
-  const final =
-    total * 5;
+  const customerKmPrice =
+    totalDistance * 5;
 
 
-  document.getElementById("toPlace").textContent =
-    selectedPlace;
+  let fixedCharge = 30;
 
 
-  document.getElementById("goDistance").textContent =
-    oneWay.toFixed(1)+" km";
+  if(
+    service ===
+    "तातडीची / Emergency सेवा"
+  ){
+
+    fixedCharge = 50;
+
+  }
 
 
-  document.getElementById("returnDistance").textContent =
-    oneWay.toFixed(1)+" km";
+  const finalPrice =
+    customerKmPrice +
+    fixedCharge;
 
 
-  document.getElementById("totalDistance").textContent =
-    total.toFixed(1)+" km";
+  /* ======================
+     DISPLAY
+  ====================== */
+
+  document
+    .getElementById("pickupPlace")
+    .textContent =
+    pickupName;
 
 
-  document.getElementById("originalPrice").textContent =
-    "₹"+original.toFixed(2);
+  document
+    .getElementById("toPlace")
+    .textContent =
+    deliveryName;
 
 
-  document.getElementById("discountPrice").textContent =
-    "- ₹"+discount.toFixed(2);
+  document
+    .getElementById("goDistance")
+    .textContent =
+    firstLeg.toFixed(1)+
+    " km";
 
 
-  document.getElementById("finalPrice").textContent =
-    "₹"+Math.round(final);
+  document
+    .getElementById("middleDistance")
+    .textContent =
+    middleLeg.toFixed(1)+
+    " km";
 
 
-  routeBox.classList.remove("hidden");
+  document
+    .getElementById("returnDistance")
+    .textContent =
+    lastLeg.toFixed(1)+
+    " km";
+
+
+  document
+    .getElementById("totalDistance")
+    .textContent =
+    totalDistance.toFixed(1)+
+    " km";
+
+
+  document
+    .getElementById("originalPrice")
+    .textContent =
+    "₹"+
+    originalKmPrice.toFixed(2);
+
+
+  document
+    .getElementById("discountPrice")
+    .textContent =
+    "- ₹"+
+    discount.toFixed(2);
+
+
+  document
+    .getElementById("fixedChargeLabel")
+    .textContent =
+    service ===
+    "तातडीची / Emergency सेवा"
+    ?
+    "⚡ Emergency charge"
+    :
+    "🧾 सामान्य Fixed charge";
+
+
+  document
+    .getElementById("fixedCharge")
+    .textContent =
+    "₹"+
+    fixedCharge;
+
+
+  document
+    .getElementById("finalPrice")
+    .textContent =
+    "₹"+
+    Math.round(finalPrice);
+
+
+  routeBox
+    .classList
+    .remove("hidden");
 
 };
 
 
-
 /* =========================
-   HELP CENTER
+   HELP
 ========================= */
 
 window.openHelp = function(){
@@ -777,14 +1137,17 @@ window.closeHelp = function(){
 };
 
 
-
 /* =========================
    SHOW PAGE
 ========================= */
 
 window.show = function(id){
 
-  ["home","booking","mybookings"]
+  [
+    "home",
+    "booking",
+    "mybookings"
+  ]
   .forEach(x=>{
 
     document
@@ -812,15 +1175,15 @@ window.show = function(id){
 };
 
 
-
 /* =========================
-   AUTH ERROR
+   FIREBASE ERROR
 ========================= */
 
 function firebaseErrorMessage(e){
 
   const code =
-    e?.code || "unknown";
+    e?.code ||
+    "unknown";
 
 
   const messages = {
@@ -866,27 +1229,31 @@ function firebaseErrorMessage(e){
     "Firebase कडून अनोखी त्रुटी आली."
   )
   +
-  "<br><small>Code: "
-  +code+
+  "<br><small>Code: "+
+  code+
   "</small>";
 
 }
-
 
 
 /* =========================
    RECAPTCHA
 ========================= */
 
-let confirmationResult = null;
+let confirmationResult =
+  null;
 
-let verifiedPhone = "";
+let verifiedPhone =
+  "";
 
-let recaptchaVerifier = null;
+let recaptchaVerifier =
+  null;
 
-let recaptchaWidgetId = null;
+let recaptchaWidgetId =
+  null;
 
-let bookingInProgress = false;
+let bookingInProgress =
+  false;
 
 
 async function makeRecaptcha(){
@@ -913,7 +1280,10 @@ async function makeRecaptcha(){
           document
             .getElementById("msg")
             .innerHTML =
-            '<div class="error">reCAPTCHA कालबाह्य झाले. पुन्हा तपासा.</div>';
+            '<div class="error">'+
+            'reCAPTCHA कालबाह्य झाले. '+
+            'पुन्हा तपासा.'+
+            '</div>';
 
         }
 
@@ -926,7 +1296,6 @@ async function makeRecaptcha(){
     await recaptchaVerifier.render();
 
 }
-
 
 
 async function resetRecaptcha(){
@@ -943,10 +1312,10 @@ async function resetRecaptcha(){
 
     }
 
-  }catch(_){}
+  }
+  catch(_){}
 
 }
-
 
 
 /* =========================
@@ -975,7 +1344,9 @@ window.sendOTP = async function(){
   if(!/^[0-9]{10}$/.test(phone)){
 
     msg.innerHTML =
-      '<div class="error">कृपया 10 अंकी मोबाईल नंबर टाका.</div>';
+      '<div class="error">'+
+      'कृपया 10 अंकी मोबाईल नंबर टाका.'+
+      '</div>';
 
     return;
 
@@ -989,7 +1360,9 @@ window.sendOTP = async function(){
 
 
   msg.innerHTML =
-    '<div class="info">reCAPTCHA तपासणी आणि OTP पाठवण्याची प्रक्रिया सुरू आहे...</div>';
+    '<div class="info">'+
+    'reCAPTCHA तपासणी आणि OTP पाठवत आहे...'+
+    '</div>';
 
 
   try{
@@ -998,7 +1371,8 @@ window.sendOTP = async function(){
 
 
     const fullPhone =
-      "+91"+phone;
+      "+91"+
+      phone;
 
 
     confirmationResult =
@@ -1020,7 +1394,10 @@ window.sendOTP = async function(){
 
 
     msg.innerHTML =
-      '<div class="success">✅ OTP पाठवला आहे. SMS मधील 6 अंकी OTP टाका.</div>';
+      '<div class="success">'+
+      '✅ OTP पाठवला आहे. '+
+      'SMS मधील 6 अंकी OTP टाका.'+
+      '</div>';
 
   }
 
@@ -1032,14 +1409,17 @@ window.sendOTP = async function(){
     );
 
 
-    confirmationResult = null;
+    confirmationResult =
+      null;
 
 
     await resetRecaptcha();
 
 
     msg.innerHTML =
-      '<div class="error"><b>OTP पाठवता आला नाही.</b><br>'+
+      '<div class="error">'+
+      '<b>OTP पाठवता आला नाही.</b>'+
+      '<br>'+
       firebaseErrorMessage(e)+
       '</div>';
 
@@ -1055,7 +1435,6 @@ window.sendOTP = async function(){
   }
 
 };
-
 
 
 /* =========================
@@ -1084,7 +1463,9 @@ window.verifyOTP = async function(){
   if(!confirmationResult){
 
     msg.innerHTML =
-      '<div class="error">आधी OTP पाठवा.</div>';
+      '<div class="error">'+
+      'आधी OTP पाठवा.'+
+      '</div>';
 
     return;
 
@@ -1094,7 +1475,9 @@ window.verifyOTP = async function(){
   if(!/^[0-9]{6}$/.test(otp)){
 
     msg.innerHTML =
-      '<div class="error">6 अंकी OTP टाका.</div>';
+      '<div class="error">'+
+      '6 अंकी OTP टाका.'+
+      '</div>';
 
     return;
 
@@ -1110,7 +1493,8 @@ window.verifyOTP = async function(){
   try{
 
     const result =
-      await confirmationResult.confirm(otp);
+      await confirmationResult
+        .confirm(otp);
 
 
     verifiedPhone =
@@ -1150,7 +1534,9 @@ window.verifyOTP = async function(){
 
 
     msg.innerHTML =
-      '<div class="success">✅ मोबाईल नंबर यशस्वीपणे सत्यापित झाला.</div>';
+      '<div class="success">'+
+      '✅ मोबाईल नंबर यशस्वीपणे सत्यापित झाला.'+
+      '</div>';
 
   }
 
@@ -1179,7 +1565,6 @@ window.verifyOTP = async function(){
   }
 
 };
-
 
 
 /* =========================
@@ -1216,6 +1601,12 @@ window.book = async function(){
       .value;
 
 
+  const pickupName =
+    document
+      .getElementById("pickup")
+      .value;
+
+
   const selectedPlace =
     document
       .getElementById("place")
@@ -1239,13 +1630,28 @@ window.book = async function(){
       .getElementById("msg");
 
 
-  const village =
+  const pickupVillage =
+    villages.find(
+      v => v[0] === pickupName
+    );
+
+
+  const deliveryVillage =
     villages.find(
       v => v[0] === selectedPlace
     );
 
 
-  if(!name || !selectedPlace || !details){
+  /* ======================
+     VALIDATION
+  ====================== */
+
+  if(
+    !name ||
+    !pickupName ||
+    !selectedPlace ||
+    !details
+  ){
 
     alert(
       "कृपया सर्व माहिती भरा."
@@ -1256,10 +1662,15 @@ window.book = async function(){
   }
 
 
-  if(!village || village[1] === null){
+  if(
+    !pickupVillage ||
+    !deliveryVillage ||
+    pickupVillage[1] === null ||
+    deliveryVillage[1] === null
+  ){
 
     alert(
-      "या गावाचे अंतर उपलब्ध नाही."
+      "Pickup किंवा Delivery गावाचे अंतर उपलब्ध नाही."
     );
 
     return;
@@ -1267,16 +1678,22 @@ window.book = async function(){
   }
 
 
-  bookingInProgress = true;
+  bookingInProgress =
+    true;
 
-  btn.disabled = true;
+
+  btn.disabled =
+    true;
+
 
   btn.textContent =
     "बुकिंग होत आहे...";
 
 
   msg.innerHTML =
-    '<div class="info">बुकिंग Firebase मध्ये सेव्ह करत आहे...</div>';
+    '<div class="info">'+
+    'बुकिंग Firebase मध्ये सेव्ह करत आहे...'+
+    '</div>';
 
 
   try{
@@ -1294,13 +1711,46 @@ window.book = async function(){
       auth.currentUser.uid;
 
 
-    const oneWay =
-      Number(village[1]);
+    /* ======================
+       DISTANCE
+    ====================== */
+
+    const pickupDistance =
+      Number(
+        pickupVillage[1]
+      );
+
+
+    const deliveryDistance =
+      Number(
+        deliveryVillage[1]
+      );
+
+
+    const firstLeg =
+      pickupDistance;
+
+
+    const middleLeg =
+      Math.abs(
+        pickupDistance -
+        deliveryDistance
+      );
+
+
+    const lastLeg =
+      deliveryDistance;
 
 
     const totalDistance =
-      oneWay * 2;
+      firstLeg +
+      middleLeg +
+      lastLeg;
 
+
+    /* ======================
+       PRICE
+    ====================== */
 
     const originalPrice =
       totalDistance * 6;
@@ -1310,9 +1760,33 @@ window.book = async function(){
       totalDistance * 1;
 
 
-    const finalPrice =
+    const customerKmPrice =
       totalDistance * 5;
 
+
+    let fixedCharge =
+      30;
+
+
+    if(
+      service ===
+      "तातडीची / Emergency सेवा"
+    ){
+
+      fixedCharge =
+        50;
+
+    }
+
+
+    const finalPrice =
+      customerKmPrice +
+      fixedCharge;
+
+
+    /* ======================
+       DUPLICATE CHECK
+    ====================== */
 
     const existing =
       await get(
@@ -1330,7 +1804,8 @@ window.book = async function(){
       );
 
 
-    let duplicate = false;
+    let duplicate =
+      false;
 
 
     if(existing.exists()){
@@ -1345,6 +1820,8 @@ window.book = async function(){
 
           b.service === service &&
 
+          b.pickup === pickupName &&
+
           b.place === selectedPlace &&
 
           b.details === details &&
@@ -1353,7 +1830,8 @@ window.book = async function(){
 
         ){
 
-          duplicate = true;
+          duplicate =
+            true;
 
         }
 
@@ -1365,12 +1843,18 @@ window.book = async function(){
     if(duplicate){
 
       msg.innerHTML =
-        '<div class="error">हीच बुकिंग आधीच नोंदलेली आहे.</div>';
+        '<div class="error">'+
+        'हीच बुकिंग आधीच नोंदलेली आहे.'+
+        '</div>';
 
       return;
 
     }
 
+
+    /* ======================
+       CREATE BOOKING
+    ====================== */
 
     const bookingRef =
       push(
@@ -1398,22 +1882,41 @@ window.book = async function(){
       from:
         "बांबवडे",
 
+      pickup:
+        pickupName,
+
       place:
         selectedPlace,
 
-      stop:
+      pickupStop:
         villages.findIndex(
-          v=>v[0]===selectedPlace
-        )+1,
+          v => v[0] === pickupName
+        ) + 1,
 
-      oneWayDistanceKm:
-        oneWay,
+      deliveryStop:
+        villages.findIndex(
+          v => v[0] === selectedPlace
+        ) + 1,
 
-      returnDistanceKm:
-        oneWay,
+
+      /* DISTANCE */
+
+      pickupDistanceKm:
+        pickupDistance,
+
+      pickupToDeliveryDistanceKm:
+        middleLeg,
+
+      deliveryToBambavdeDistanceKm:
+        lastLeg,
 
       totalDistanceKm:
-        totalDistance,
+        Number(
+          totalDistance.toFixed(1)
+        ),
+
+
+      /* PRICE */
 
       originalRate:
         6,
@@ -1424,14 +1927,22 @@ window.book = async function(){
       customerRate:
         5,
 
+      fixedCharge:
+        fixedCharge,
+
       originalPrice:
-        originalPrice,
+        Number(
+          originalPrice.toFixed(2)
+        ),
 
       discountAmount:
-        discount,
+        Number(
+          discount.toFixed(2)
+        ),
 
       finalPrice:
         Math.round(finalPrice),
+
 
       details:
         details,
@@ -1451,23 +1962,67 @@ window.book = async function(){
     );
 
 
+    /* ======================
+       SUCCESS
+    ====================== */
+
     msg.innerHTML =
+
       '<div class="success">'+
+
       '<b>🎉 बुकिंग यशस्वी!</b>'+
+
       '<br><br>'+
+
       '📦 बांबवडे → '+
+      pickupName+
+      ' → '+
       selectedPlace+
       ' → बांबवडे'+
-      '<br>'+
+
+      '<br><br>'+
+
       '📏 एकूण अंतर: '+
       totalDistance.toFixed(1)+
       ' km'+
+
       '<br>'+
-      '💰 ग्राहक किंमत: ₹'+
+
+      '💰 मूळ दर: ₹'+
+      originalPrice.toFixed(2)+
+
+      '<br>'+
+
+      '🎁 Discount: ₹'+
+      discount.toFixed(2)+
+
+      '<br>'+
+
+      '🧾 Fixed charge: ₹'+
+      fixedCharge+
+
+      '<br>'+
+
+      '<b>💵 ग्राहक किंमत: ₹'+
       Math.round(finalPrice)+
+      '</b>'+
+
       '<br><br>'+
+
+      (
+        service ===
+        "तातडीची / Emergency सेवा"
+        ?
+        '⚡ साधारण 30 मिनिटांत आम्ही तुमच्याजवळ असू.'
+        :
+        '⏱️ साधारण 2–3 तास लागतील.'
+      )+
+
+      '<br><br>'+
+
       'बुकिंग क्रमांक: '+
       booking.id+
+
       '</div>';
 
 
@@ -1482,7 +2037,7 @@ window.book = async function(){
 
       render();
 
-    },700);
+    },1000);
 
 
   }
@@ -1497,22 +2052,30 @@ window.book = async function(){
 
     msg.innerHTML =
       '<div class="error">'+
+
       '<b>बुकिंग सेव्ह झाली नाही.</b>'+
+
       '<br><br>'+
+
       '<b>Firebase Code:</b> '+
       (e?.code || "unknown")+
+
       '<br>'+
+
       '<b>Message:</b> '+
       (e?.message || "अनोखी त्रुटी")+
+
       '</div>';
 
   }
 
   finally{
 
-    bookingInProgress = false;
+    bookingInProgress =
+      false;
 
-    btn.disabled = false;
+    btn.disabled =
+      false;
 
     btn.textContent =
       "बुकिंग करा";
@@ -1520,7 +2083,6 @@ window.book = async function(){
   }
 
 };
-
 
 
 /* =========================
@@ -1592,56 +2154,110 @@ window.render = async function(){
 
     arr.sort(
       (a,b)=>
-        (b.createdAt||0) -
-        (a.createdAt||0)
+        (b.createdAt || 0) -
+        (a.createdAt || 0)
     );
 
 
     list.innerHTML =
 
-      arr.map(b=>
+      arr.map(b=>{
 
-        `<div class="card">
+        const fixed =
+          Number(
+            b.fixedCharge || 0
+          );
+
+
+        const discount =
+          Number(
+            b.discountAmount || 0
+          );
+
+
+        const original =
+          Number(
+            b.originalPrice || 0
+          );
+
+
+        const finalPrice =
+          Number(
+            b.finalPrice || 0
+          );
+
+
+        return `
+
+        <div class="card">
 
           <b>बुकिंग: ${b.id}</b>
-          <br><br>
-
-          📦 ${b.from || "बांबवडे"}
-          → ${b.place}
-          → ${b.from || "बांबवडे"}
 
           <br><br>
 
-          सेवा: ${b.service}
+          📦
+          ${b.from || "बांबवडे"}
+          →
+          ${b.pickup || "-"}
+          →
+          ${b.place || "-"}
+          →
+          ${b.from || "बांबवडे"}
 
-          <br>
+          <br><br>
+
+          सेवा:
+          ${b.service || "-"}
+
+          <br><br>
 
           📏 एकूण अंतर:
-          ${b.totalDistanceKm || 0} km
+          ${b.totalDistanceKm || 0}
+          km
 
           <br>
 
           💰 मूळ किंमत:
-          ₹${Number(b.originalPrice || 0).toFixed(2)}
+          ₹${original.toFixed(2)}
 
           <br>
 
           🎁 Discount:
-          ₹${Number(b.discountAmount || 0).toFixed(2)}
+          ₹${discount.toFixed(2)}
 
           <br>
 
-          <b>💵 ग्राहक किंमत:
-          ₹${b.finalPrice || 0}</b>
+          🧾 Fixed charge:
+          ₹${fixed}
+
+          <br><br>
+
+          <b>
+            💵 ग्राहक किंमत:
+            ₹${finalPrice}
+          </b>
 
           <br><br>
 
           स्थिती:
-          ${b.status}
+          ${b.status || "नवीन"}
 
-        </div>`
+          <br><br>
 
-      ).join("");
+          ${
+            b.service ===
+            "तातडीची / Emergency सेवा"
+            ?
+            "⚡ साधारण 30 मिनिटांत"
+            :
+            "⏱️ साधारण 2–3 तास"
+          }
+
+        </div>
+
+        `;
+
+      }).join("");
 
 
   }
@@ -1656,12 +2272,17 @@ window.render = async function(){
 
     list.innerHTML =
       '<div class="error">'+
-      'बुकिंग लोड करता आली नाही.<br>'+
+
+      'बुकिंग लोड करता आली नाही.'+
+
+      '<br>'+
+
       '<small>'+
       (e?.code || "unknown")+
       '<br>'+
       (e?.message || "")+
       '</small>'+
+
       '</div>';
 
   }
