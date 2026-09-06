@@ -846,16 +846,6 @@ input,select,textarea{
 
     <div id="profileMsg"></div>
 
-    <!-- ADMIN BUTTON DEFAULT HIDDEN -->
-    <button
-      id="adminOpenBtn"
-      class="btn hidden"
-      onclick="show('admin')"
-      type="button"
-    >
-      👨‍💼 Admin Booking Panel
-    </button>
-
   </div>
 
   <button
@@ -1180,37 +1170,6 @@ function escapeHtml(value){
     .replace(/>/g,"&gt;")
     .replace(/"/g,"&quot;")
     .replace(/'/g,"&#039;");
-
-}
-
-
-/* =========================
-   ADMIN BUTTON CONTROL
-========================= */
-
-function updateAdminButton(){
-
-  const adminBtn =
-    document.getElementById("adminOpenBtn");
-
-  if(!adminBtn)
-    return;
-
-  /*
-    सुरुवातीला नेहमी HIDDEN.
-    फक्त Admin UID जुळला तरच दिसेल.
-  */
-
-  adminBtn.classList.add("hidden");
-
-  if(
-    auth.currentUser &&
-    auth.currentUser.uid === ADMIN_UID
-  ){
-
-    adminBtn.classList.remove("hidden");
-
-  }
 
 }
 
@@ -2041,9 +2000,6 @@ window.verifyOTP = async function(){
 
 
     calculatePrice();
-
-
-    updateAdminButton();
 
 
     msg.innerHTML =
@@ -3007,14 +2963,6 @@ async function loadProfile(){
 
 window.openProfile = async function(){
 
-  /*
-    प्रत्येक वेळी Profile उघडताना
-    Admin UID पुन्हा तपासला जातो.
-  */
-
-  updateAdminButton();
-
-
   if(!auth.currentUser){
 
     document
@@ -3023,11 +2971,6 @@ window.openProfile = async function(){
       '<div class="error">'+
       'प्रोफाइल पाहण्यासाठी आधी मोबाईल OTP सत्यापित करा.'+
       '</div>';
-
-    document
-      .getElementById("adminOpenBtn")
-      .classList
-      .add("hidden");
 
     return;
 
@@ -3043,9 +2986,6 @@ window.openProfile = async function(){
     auth.currentUser.phoneNumber ||
     verifiedPhone ||
     "मोबाईल नंबर उपलब्ध नाही";
-
-
-  updateAdminButton();
 
 };
 
@@ -3569,21 +3509,6 @@ onAuthStateChanged(
   auth,
   async user=>{
 
-    /*
-      सर्वात आधी Admin button hide.
-      नंतर UID तपासूनच show.
-    */
-
-    const adminBtn =
-      document.getElementById("adminOpenBtn");
-
-    if(adminBtn){
-
-      adminBtn.classList.add("hidden");
-
-    }
-
-
     if(user){
 
       verifiedPhone =
@@ -3603,18 +3528,12 @@ onAuthStateChanged(
 
       /*
         फक्त exact Admin UID असेल तरच
-        Admin button दिसेल.
+        Admin listener सुरू होईल.
       */
 
       if(
         user.uid === ADMIN_UID
       ){
-
-        if(adminBtn){
-
-          adminBtn.classList.remove("hidden");
-
-        }
 
         startAdminListener();
 
@@ -3622,8 +3541,6 @@ onAuthStateChanged(
 
 
       await loadProfile();
-
-      updateAdminButton();
 
     }
 
@@ -3650,12 +3567,6 @@ onAuthStateChanged(
 
       }
 
-      if(adminBtn){
-
-        adminBtn.classList.add("hidden");
-
-      }
-
     }
 
   }
@@ -3672,13 +3583,6 @@ setTimeout(()=>{
   updateDeliveryInfo();
 
   updateServiceLabels();
-
-  /*
-    Page load होताना Admin button
-    default hidden ठेवतो.
-  */
-
-  updateAdminButton();
 
 },100);
 
