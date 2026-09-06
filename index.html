@@ -455,6 +455,27 @@ input,select,textarea{
 
   </div>
 
+
+  <!-- ================= ADMIN BUTTON ================= -->
+
+  <div
+    id="adminHomeCard"
+    class="card hidden"
+  >
+
+    <h3 style="text-align:center">
+      👨‍💼 Admin
+    </h3>
+
+    <button
+      class="btn"
+      onclick="show('admin')"
+    >
+      📋 Admin Booking Panel
+    </button>
+
+  </div>
+
 </section>
 
 
@@ -3156,12 +3177,6 @@ function isAdmin(){
 
 window.openAdmin = function(){
 
-  /*
-    Normal user ने कोणत्याही प्रकारे
-    Admin page उघडण्याचा प्रयत्न केला तरी
-    लगेच Home वर पाठवला जाईल.
-  */
-
   if(!isAdmin()){
 
     alert(
@@ -3516,6 +3531,27 @@ onAuthStateChanged(
         "";
 
 
+      /* =========================
+         ADMIN OPTION VISIBILITY
+         फक्त ADMIN UID ला दिसेल
+      ========================= */
+
+      const adminHomeCard =
+        document.getElementById(
+          "adminHomeCard"
+        );
+
+
+      if(adminHomeCard){
+
+        adminHomeCard.classList.toggle(
+          "hidden",
+          user.uid !== ADMIN_UID
+        );
+
+      }
+
+
       document
         .getElementById("profilePhone")
         .textContent =
@@ -3549,6 +3585,24 @@ onAuthStateChanged(
       verifiedPhone =
         "";
 
+
+      /* Logout झाल्यावर Admin option लपवा */
+
+      const adminHomeCard =
+        document.getElementById(
+          "adminHomeCard"
+        );
+
+
+      if(adminHomeCard){
+
+        adminHomeCard.classList.add(
+          "hidden"
+        );
+
+      }
+
+
       if(bookingsUnsubscribe){
 
         bookingsUnsubscribe();
@@ -3557,6 +3611,7 @@ onAuthStateChanged(
           null;
 
       }
+
 
       if(adminUnsubscribe){
 
