@@ -11,7 +11,7 @@
 body{
   margin:0;
   font-family:Arial,sans-serif;
-  background:#f5f7fb;
+  background:#fff;
   color:#222
 }
 
@@ -28,7 +28,7 @@ body{
 }
 
 .help{
-  color:#1769aa;
+  color:#f57c00;
   font-size:14px;
   cursor:pointer
 }
@@ -41,19 +41,20 @@ body{
 .logo{
   width:100px;
   height:100px;
-  border:3px solid #333;
+  border:3px solid #f57c00;
   border-radius:16px;
   margin:auto;
   display:flex;
   align-items:center;
   justify-content:center;
-  background:#fafafa;
-  font-weight:bold
+  background:#fff;
+  font-weight:bold;
+  color:#f57c00
 }
 
 .hero h1{
   font-size:25px;
-  margin:15px 0 25px
+  margin:15px 0 20px
 }
 
 .card{
@@ -69,7 +70,7 @@ body{
   padding:14px;
   border:0;
   border-radius:10px;
-  background:#1769aa;
+  background:#f57c00;
   color:#fff;
   font-size:17px;
   margin-top:10px;
@@ -158,7 +159,7 @@ input,select,textarea{
 }
 
 .info{
-  background:#eef6ff;
+  background:#fff3e0;
   padding:12px;
   border-radius:10px;
   margin:10px 0
@@ -172,7 +173,7 @@ input,select,textarea{
 }
 
 .pricebox{
-  background:#f8f8f8;
+  background:#fff;
   padding:16px;
   border-radius:12px;
   margin:12px 0;
@@ -261,6 +262,53 @@ input,select,textarea{
   color:#755800;
   margin-top:10px
 }
+
+/* =========================
+   DELIVERY OPTIONS
+========================= */
+
+.delivery-info{
+  margin:12px 0;
+  display:flex;
+  flex-direction:column;
+  gap:10px
+}
+
+.delivery-card{
+  border:2px solid #eee;
+  border-radius:12px;
+  padding:12px;
+  text-align:left;
+  background:#fff
+}
+
+.delivery-card.emergency{
+  border-color:#f57c00
+}
+
+.delivery-card.day{
+  border-color:#f57c00
+}
+
+.delivery-card b{
+  display:block;
+  font-size:16px;
+  margin-bottom:4px
+}
+
+.delivery-card span{
+  font-size:14px;
+  color:#555
+}
+
+.home-delivery{
+  margin-top:15px;
+  text-align:left
+}
+
+.home-delivery .delivery-card{
+  margin-bottom:10px
+}
 </style>
 </head>
 
@@ -281,12 +329,74 @@ input,select,textarea{
 
   <h1>तुमच्यासाठी कायपण</h1>
 
+
+  <!-- EVERY USER CAN SEE DELIVERY TIME -->
+
+  <div class="card home-delivery">
+
+    <h3 style="text-align:center">
+      🚚 आमच्या Delivery सेवा
+    </h3>
+
+
+    <div class="delivery-card emergency">
+
+      <b>⚡ Emergency Delivery</b>
+
+      <span>
+        30 मिनिटांत आम्ही तुमच्या जवळ येणार.
+      </span>
+
+      <br>
+
+      <span>
+        ₹50 Fixed + ₹5/km
+      </span>
+
+    </div>
+
+
+    <div class="delivery-card">
+
+      <b>🛵 सामान्य Delivery</b>
+
+      <span>
+        2 तासात आम्ही तुमच्या जवळ येणार.
+      </span>
+
+      <br>
+
+      <span>
+        ₹30 Fixed + ₹5/km
+      </span>
+
+    </div>
+
+
+    <div class="delivery-card day">
+
+      <b>📦 1 Day Delivery</b>
+
+      <span>
+        1 दिवसाच्या आत आम्ही तुमच्या जवळ येणार.
+      </span>
+
+    </div>
+
+  </div>
+
+
   <div class="card">
+
     <h3>तुम्हाला काय हवे आहे?</h3>
 
-    <button class="btn" onclick="show('booking')">
+    <button
+      class="btn"
+      onclick="show('booking')"
+    >
       नवीन बुकिंग
     </button>
+
   </div>
 
 </section>
@@ -397,6 +507,48 @@ input,select,textarea{
     </div>
 
 
+    <!-- ================= DELIVERY TYPE ================= -->
+
+    <label>
+      🚚 Delivery प्रकार निवडा
+    </label>
+
+    <select
+      id="deliveryType"
+      onchange="calculatePrice()"
+    >
+
+      <option value="सामान्य Delivery">
+        🛵 सामान्य Delivery — 2 तास — ₹30 Fixed + ₹5/km
+      </option>
+
+      <option value="Emergency Delivery">
+        ⚡ Emergency — 30 मिनिटे — ₹50 Fixed + ₹5/km
+      </option>
+
+      <option value="1 Day Delivery">
+        📦 1 Day Delivery — 1 दिवसाच्या आत
+      </option>
+
+    </select>
+
+
+    <div class="delivery-info">
+
+      <div
+        id="deliveryTimeInfo"
+        class="delivery-card"
+      >
+        <b>🛵 सामान्य Delivery</b>
+
+        <span>
+          2 तासात आम्ही तुमच्या जवळ येणार.
+        </span>
+      </div>
+
+    </div>
+
+
     <!-- SERVICE -->
 
     <label>सेवा निवडा</label>
@@ -407,11 +559,15 @@ input,select,textarea{
     >
 
       <option value="सामान्य डिलिव्हरी">
-        सामान्य डिलिव्हरी
+        सामान आणून देणे
       </option>
 
-      <option value="तातडीची / Emergency सेवा">
-        तातडीची / Emergency सेवा
+      <option value="औषध आणून देणे">
+        औषध आणून देणे
+      </option>
+
+      <option value="कागदपत्र/ऑफिस काम">
+        कागदपत्र/ऑफिस काम
       </option>
 
       <option value="इतर काम">
@@ -538,16 +694,13 @@ input,select,textarea{
       </div>
 
 
-      <div class="small">
+      <div
+        id="priceDeliveryText"
+        class="small"
+      >
 
-        सामान्य डिलिव्हरी:
-        साधारण <b>2–3 तास</b>
-
-        <br>
-
-        Emergency:
-        साधारण <b>30 मिनिटांत</b>
-        आम्ही तुमच्याजवळ असू.
+        🛵 सामान्य Delivery:
+        <b>2 तासात आम्ही तुमच्या जवळ येणार.</b>
 
       </div>
 
@@ -884,10 +1037,74 @@ villages.forEach((item,i)=>{
 
 
 /* =========================
+   DELIVERY TYPE TEXT
+========================= */
+
+window.updateDeliveryInfo = function(){
+
+  const type =
+    document
+      .getElementById("deliveryType")
+      .value;
+
+
+  const info =
+    document
+      .getElementById("deliveryTimeInfo");
+
+
+  const priceText =
+    document
+      .getElementById("priceDeliveryText");
+
+
+  if(type === "Emergency Delivery"){
+
+    info.innerHTML =
+      "<b>⚡ Emergency Delivery</b>"+
+      "<span>30 मिनिटांत आम्ही तुमच्या जवळ येणार.</span>";
+
+    priceText.innerHTML =
+      "⚡ Emergency Delivery: "+
+      "<b>30 मिनिटांत आम्ही तुमच्या जवळ येणार.</b>";
+
+  }
+
+  else if(type === "1 Day Delivery"){
+
+    info.innerHTML =
+      "<b>📦 1 Day Delivery</b>"+
+      "<span>1 दिवसाच्या आत आम्ही तुमच्या जवळ येणार.</span>";
+
+    priceText.innerHTML =
+      "📦 1 Day Delivery: "+
+      "<b>1 दिवसाच्या आत आम्ही तुमच्या जवळ येणार.</b>";
+
+  }
+
+  else{
+
+    info.innerHTML =
+      "<b>🛵 सामान्य Delivery</b>"+
+      "<span>2 तासात आम्ही तुमच्या जवळ येणार.</span>";
+
+    priceText.innerHTML =
+      "🛵 सामान्य Delivery: "+
+      "<b>2 तासात आम्ही तुमच्या जवळ येणार.</b>";
+
+  }
+
+};
+
+
+/* =========================
    PRICE CALCULATION
 ========================= */
 
 window.calculatePrice = function(){
+
+  updateDeliveryInfo();
+
 
   const pickupName =
     document
@@ -901,9 +1118,9 @@ window.calculatePrice = function(){
       .value;
 
 
-  const service =
+  const deliveryType =
     document
-      .getElementById("service")
+      .getElementById("deliveryType")
       .value;
 
 
@@ -966,8 +1183,8 @@ window.calculatePrice = function(){
 
 
   /*
-    सध्या Pickup → Delivery
-    हे बांबवडेपासूनच्या दोन
+    Pickup → Delivery
+    बांबवडेपासूनच्या दोन
     अंतरांमधील फरकाने
     अंदाजे काढले आहे.
   */
@@ -1009,8 +1226,8 @@ window.calculatePrice = function(){
 
 
   if(
-    service ===
-    "तातडीची / Emergency सेवा"
+    deliveryType ===
+    "Emergency Delivery"
   ){
 
     fixedCharge = 50;
@@ -1084,8 +1301,8 @@ window.calculatePrice = function(){
   document
     .getElementById("fixedChargeLabel")
     .textContent =
-    service ===
-    "तातडीची / Emergency सेवा"
+    deliveryType ===
+    "Emergency Delivery"
     ?
     "⚡ Emergency charge"
     :
@@ -1601,6 +1818,12 @@ window.book = async function(){
       .value;
 
 
+  const deliveryType =
+    document
+      .getElementById("deliveryType")
+      .value;
+
+
   const pickupName =
     document
       .getElementById("pickup")
@@ -1769,8 +1992,8 @@ window.book = async function(){
 
 
     if(
-      service ===
-      "तातडीची / Emergency सेवा"
+      deliveryType ===
+      "Emergency Delivery"
     ){
 
       fixedCharge =
@@ -1782,6 +2005,35 @@ window.book = async function(){
     const finalPrice =
       customerKmPrice +
       fixedCharge;
+
+
+    /* ======================
+       DELIVERY TIME
+    ====================== */
+
+    let deliveryTime =
+      "2 तासात आम्ही तुमच्या जवळ येणार.";
+
+
+    if(
+      deliveryType ===
+      "Emergency Delivery"
+    ){
+
+      deliveryTime =
+        "30 मिनिटांत आम्ही तुमच्या जवळ येणार.";
+
+    }
+
+    else if(
+      deliveryType ===
+      "1 Day Delivery"
+    ){
+
+      deliveryTime =
+        "1 दिवसाच्या आत आम्ही तुमच्या जवळ येणार.";
+
+    }
 
 
     /* ======================
@@ -1819,6 +2071,8 @@ window.book = async function(){
         if(
 
           b.service === service &&
+
+          b.deliveryType === deliveryType &&
 
           b.pickup === pickupName &&
 
@@ -1878,6 +2132,12 @@ window.book = async function(){
 
       service:
         service,
+
+      deliveryType:
+        deliveryType,
+
+      deliveryTime:
+        deliveryTime,
 
       from:
         "बांबवडे",
@@ -1974,6 +2234,16 @@ window.book = async function(){
 
       '<br><br>'+
 
+      '🚚 Delivery प्रकार: '+
+      deliveryType+
+
+      '<br>'+
+
+      '⏱️ '+
+      deliveryTime+
+
+      '<br><br>'+
+
       '📦 बांबवडे → '+
       pickupName+
       ' → '+
@@ -2001,22 +2271,11 @@ window.book = async function(){
       '🧾 Fixed charge: ₹'+
       fixedCharge+
 
-      '<br>'+
+      '<br><br>'+
 
       '<b>💵 ग्राहक किंमत: ₹'+
       Math.round(finalPrice)+
       '</b>'+
-
-      '<br><br>'+
-
-      (
-        service ===
-        "तातडीची / Emergency सेवा"
-        ?
-        '⚡ साधारण 30 मिनिटांत आम्ही तुमच्याजवळ असू.'
-        :
-        '⏱️ साधारण 2–3 तास लागतील.'
-      )+
 
       '<br><br>'+
 
@@ -2187,11 +2446,37 @@ window.render = async function(){
           );
 
 
+        const deliveryType =
+          b.deliveryType ||
+          "सामान्य Delivery";
+
+
+        const deliveryTime =
+          b.deliveryTime ||
+          (
+            deliveryType ===
+            "Emergency Delivery"
+            ?
+            "30 मिनिटांत आम्ही तुमच्या जवळ येणार."
+            :
+            "2 तासात आम्ही तुमच्या जवळ येणार."
+          );
+
+
         return `
 
         <div class="card">
 
           <b>बुकिंग: ${b.id}</b>
+
+          <br><br>
+
+          🚚 Delivery प्रकार:
+          ${deliveryType}
+
+          <br>
+
+          ⏱️ ${deliveryTime}
 
           <br><br>
 
@@ -2242,17 +2527,6 @@ window.render = async function(){
           स्थिती:
           ${b.status || "नवीन"}
 
-          <br><br>
-
-          ${
-            b.service ===
-            "तातडीची / Emergency सेवा"
-            ?
-            "⚡ साधारण 30 मिनिटांत"
-            :
-            "⏱️ साधारण 2–3 तास"
-          }
-
         </div>
 
         `;
@@ -2288,6 +2562,23 @@ window.render = async function(){
   }
 
 };
+
+
+/* =========================
+   INITIAL DELIVERY INFO
+========================= */
+
+setTimeout(()=>{
+
+  if(
+    document.getElementById("deliveryType")
+  ){
+
+    updateDeliveryInfo();
+
+  }
+
+},100);
 
 </script>
 
