@@ -87,7 +87,7 @@ body{
 }
 
 .hidden{
-  display:none
+  display:none !important
 }
 
 input,select,textarea{
@@ -846,10 +846,12 @@ input,select,textarea{
 
     <div id="profileMsg"></div>
 
+    <!-- ADMIN BUTTON DEFAULT HIDDEN -->
     <button
       id="adminOpenBtn"
       class="btn hidden"
       onclick="show('admin')"
+      type="button"
     >
       👨‍💼 Admin Booking Panel
     </button>
@@ -1183,6 +1185,37 @@ function escapeHtml(value){
 
 
 /* =========================
+   ADMIN BUTTON CONTROL
+========================= */
+
+function updateAdminButton(){
+
+  const adminBtn =
+    document.getElementById("adminOpenBtn");
+
+  if(!adminBtn)
+    return;
+
+  /*
+    सुरुवातीला नेहमी HIDDEN.
+    फक्त Admin UID जुळला तरच दिसेल.
+  */
+
+  adminBtn.classList.add("hidden");
+
+  if(
+    auth.currentUser &&
+    auth.currentUser.uid === ADMIN_UID
+  ){
+
+    adminBtn.classList.remove("hidden");
+
+  }
+
+}
+
+
+/* =========================
    DELIVERY INFO
 ========================= */
 
@@ -1435,11 +1468,6 @@ window.calculatePrice = function(){
     totalDistance * 5;
 
 
-  /*
-    ₹20 सामान्य
-    ₹40 Emergency
-  */
-
   let fixedCharge = 20;
 
 
@@ -1564,6 +1592,22 @@ window.closeHelp = function(){
 ========================= */
 
 window.show = function(id){
+
+  /*
+    ADMIN SECURITY:
+    Normal user ला Admin page उघडता येणार नाही.
+  */
+
+  if(id === "admin" && !isAdmin()){
+
+    alert(
+      "❌ तुम्हाला Admin Booking Panel वापरण्याची परवानगी नाही."
+    );
+
+    id = "home";
+
+  }
+
 
   [
     "home",
@@ -1984,25 +2028,22 @@ window.verifyOTP = async function(){
       .add("hidden");
 
 
-    /* PROFILE PHONE */
-
     document
       .getElementById("profilePhone")
       .textContent =
       verifiedPhone;
 
 
-    /* PROFILE LOAD */
-
     await loadProfile();
 
-
-    /* REAL-TIME BOOKINGS */
 
     startBookingsListener();
 
 
     calculatePrice();
+
+
+    updateAdminButton();
 
 
     msg.innerHTML =
@@ -2173,8 +2214,6 @@ window.book = async function(){
       auth.currentUser.uid;
 
 
-    /* DISTANCE */
-
     const pickupDistance =
       Number(
         pickupVillage[1]
@@ -2202,8 +2241,6 @@ window.book = async function(){
       middleLeg +
       lastLeg;
 
-
-    /* PRICE */
 
     const originalPrice =
       totalDistance * 6;
@@ -2235,8 +2272,6 @@ window.book = async function(){
       fixedCharge;
 
 
-    /* DELIVERY TIME */
-
     let deliveryTime =
       "2 तासात आम्ही तुमच्या जवळ येणार.";
 
@@ -2261,8 +2296,6 @@ window.book = async function(){
 
     }
 
-
-    /* DUPLICATE CHECK */
 
     const existing =
       await get(
@@ -2329,8 +2362,6 @@ window.book = async function(){
 
     }
 
-
-    /* CREATE BOOKING */
 
     const bookingRef =
       push(
@@ -2946,8 +2977,6 @@ async function loadProfile(){
       "";
 
 
-    /* Booking name prefill */
-
     if(
       profile.name &&
       !document
@@ -2977,6 +3006,14 @@ async function loadProfile(){
 
 
 window.openProfile = async function(){
+
+  /*
+    प्रत्येक वेळी Profile उघडताना
+    Admin UID पुन्हा तपासला जातो.
+  */
+
+  updateAdminButton();
+
 
   if(!auth.currentUser){
 
@@ -3008,14 +3045,7 @@ window.openProfile = async function(){
     "मोबाईल नंबर उपलब्ध नाही";
 
 
-  if(isAdmin()){
-
-    document
-      .getElementById("adminOpenBtn")
-      .classList
-      .remove("hidden");
-
-  }
+  updateAdminButton();
 
 };
 
@@ -3186,27 +3216,19 @@ function isAdmin(){
 
 window.openAdmin = function(){
 
-  if(!auth.currentUser){
-
-    alert(
-      "आधी OTP सत्यापित करा."
-    );
-
-    show("home");
-
-    return;
-
-  }
-
+  /*
+    Normal user ने कोणत्याही प्रकारे
+    Admin page उघडण्याचा प्रयत्न केला तरी
+    लगेच Home वर पाठवला जाईल.
+  */
 
   if(!isAdmin()){
 
-    document
-      .getElementById("adminMsg")
-      .innerHTML =
-      '<div class="error">'+
-      '❌ तुम्हाला Admin Panel वापरण्याची परवानगी नाही.'+
-      '</div>';
+    alert(
+      "❌ तुम्हाला Admin Panel वापरण्याची परवानगी नाही."
+    );
+
+    show("home");
 
     return;
 
@@ -3219,6 +3241,10 @@ window.openAdmin = function(){
 
 
 function startAdminListener(){
+
+  if(!isAdmin())
+    return;
+
 
   if(adminUnsubscribe){
 
@@ -3270,6 +3296,10 @@ function startAdminListener(){
 
 
 function renderAdminBookings(snap){
+
+  if(!isAdmin())
+    return;
+
 
   const list =
     document
@@ -3539,6 +3569,21 @@ onAuthStateChanged(
   auth,
   async user=>{
 
+    /*
+      सर्वात आधी Admin button hide.
+      नंतर UID तपासूनच show.
+    */
+
+    const adminBtn =
+      document.getElementById("adminOpenBtn");
+
+    if(adminBtn){
+
+      adminBtn.classList.add("hidden");
+
+    }
+
+
     if(user){
 
       verifiedPhone =
@@ -3556,26 +3601,29 @@ onAuthStateChanged(
       startBookingsListener();
 
 
-      if(isAdmin()){
+      /*
+        फक्त exact Admin UID असेल तरच
+        Admin button दिसेल.
+      */
 
-        document
-          .getElementById("adminOpenBtn")
-          .classList
-          .remove("hidden");
+      if(
+        user.uid === ADMIN_UID
+      ){
 
-      }
+        if(adminBtn){
 
-      else{
+          adminBtn.classList.remove("hidden");
 
-        document
-          .getElementById("adminOpenBtn")
-          .classList
-          .add("hidden");
+        }
+
+        startAdminListener();
 
       }
 
 
       await loadProfile();
+
+      updateAdminButton();
 
     }
 
@@ -3602,6 +3650,12 @@ onAuthStateChanged(
 
       }
 
+      if(adminBtn){
+
+        adminBtn.classList.add("hidden");
+
+      }
+
     }
 
   }
@@ -3618,6 +3672,13 @@ setTimeout(()=>{
   updateDeliveryInfo();
 
   updateServiceLabels();
+
+  /*
+    Page load होताना Admin button
+    default hidden ठेवतो.
+  */
+
+  updateAdminButton();
 
 },100);
 
