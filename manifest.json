@@ -1,0 +1,27 @@
+{
+  "name": "tumchyasathi kaypn",
+  "short_name": "tumchyasathi kaypn",
+  "description": "तुमच्यासाठी कायपण — तुमच्या गरजेसाठी, तुमच्या जवळची विश्वासू सेवा! Delivery, व्यक्तीला आणणे, औषध आणून देणे, कागदपत्रे व ऑफिसची कामे आणि इतर आवश्यक कामांसाठी जलद, सोपी आणि विश्वासार्ह सेवा.",
+  "lang": "mr",
+  "dir": "ltr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#f57c00",
+  "background_color": "#ffffff",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
