@@ -383,5 +383,13 @@ if(adminUnsubscribe){adminUnsubscribe();adminUnsubscribe=null;}
 });
 setTimeout(()=>{updateDeliveryInfo();updateServiceLabels();},100);
 </script>
+<script>
+// Register the PWA service worker. This does not change app functionality.
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./service-worker.js")
+      .catch((error) => console.error("Service Worker registration failed:", error));
+  });
+}
 </body>
 </html>
